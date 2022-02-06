@@ -1,5 +1,6 @@
 
 
+
 function startGame(){
 
     document.addEventListener('click', handleMouseClick)
@@ -9,7 +10,7 @@ function startGame(){
 
 
 //mouse handle fucntion
-function handleKeyPress(event){
+function handleMouseClick(event){
 
     if(event.target.matches("[data-key]")) {
         pressKey(event.target.dataset.key)
@@ -26,6 +27,25 @@ function handleKeyPress(event){
 
 }
 
+//keybord handle event
 function handleKeyPress(event){
+ if(event.key === "Enter"){
+     submitGuess()
+     return
+ }
 
+ if(event.key === "Backspace" || event.key === "Delete"){
+     deleteKey()
+     return
+ }
+
+ if (event.key.match(/^[a-z]$/)){
+     pressKey(event.key)
+     return
+ }
+  
 }
+
+
+
+startGame()
