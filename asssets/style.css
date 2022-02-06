@@ -75,3 +75,29 @@ body{
     
 }
 
+/* ============================================================================================================ */
+
+.word-grid{
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    flex-grow: 1;
+    grid-template-columns:  repeat(5, 4em);
+    grid-template-rows: repeat(6, 4em);
+    gap: .25em;
+    margin-bottom: 2%;
+
+}
+
+.tile {
+    color: white;
+    border: 0.1em solid hsl(240, 2%, 23%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    user-select: none;
+}
+
+.tile[data-state="active"]
