@@ -16,8 +16,20 @@ body{
      
 }
 
+.keyboard {
+    display: grid;
+    grid-template-columns: repeat(20 , minmax(auto, 1.25em));
+    grid-auto-rows: 3em;
+    gap: 5px;
+    justify-content: center;
+}
+
 .key {
-    background-color: rgb(129, 129, 129);
+    background-color: hsl(
+        var(--hue, 200),
+        var(--saturation, 1%),
+        calc(var(--lightness-offest, 0%) + var(--lightness, 51%))
+    );
     font-size: inherit;
     grid-column: span 2;
     border: none;
@@ -39,10 +51,27 @@ body{
     grid-column: span 3; 
 }
 
-.keyboard {
-    display: grid;
-    grid-template-columns: repeat(20 , minmax(auto, 1.25em));
-    grid-auto-rows: 3em;
-    gap: 5px;
-    justify-content: center;
+.key.wrong{
+    --lightness: 25%;
 }
+
+.key.wrong-location {
+    --hue: 49;
+    --saturation: 51%;
+    --lightness: 47%
+
+}
+
+.key.correct {
+    --hue: 115;
+    --saturation: 29%;
+    --lightness: 50%
+
+}
+
+.key:hover, key.focus{
+    --lightness-offset: 15%;
+    scale: 0.1px;
+    
+}
+
