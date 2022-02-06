@@ -1,6 +1,9 @@
 
+const guessWord = document.querySelector("[data-guess-word]")
 
+startGame()
 
+//start game
 function startGame(){
 
     document.addEventListener('click', handleMouseClick)
@@ -8,6 +11,12 @@ function startGame(){
 
 }
 
+// end game
+
+function endGame(){
+    document.removeEventListener('click', handleMouseClick)
+    document.removeEventListener('keydown', handleKeyPress)
+}
 
 //mouse handle fucntion
 function handleMouseClick(event){
@@ -47,5 +56,21 @@ function handleKeyPress(event){
 }
 
 
+ 
 
-startGame()
+function pressKey(key){
+  const nextTile = guessWord.querySelector(":not([data-letter])")
+  nextTile.dataset.letter = key.toLowerCase();
+
+  nextTile.textContent = key
+  nextTile.dataset.state = "active"
+}
+
+
+
+
+function submitGuess(){
+
+}
+
+
