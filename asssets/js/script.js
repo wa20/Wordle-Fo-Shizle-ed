@@ -1,6 +1,10 @@
 const guessWord = document.querySelector("[data-guess-word]");
 const wordLength = 5;
-
+const offsetFromDate = new Date(2022, 0, 1)
+const milliSecondOffset = Date.now() - offsetFromDate
+const dayOffset = milliSecondOffset / 1000 / 60 / 60 / 24
+const targetWord = wordOfTheDay[Math.floor(dayOffset)]
+console.log(targetWord)
 startGame();
 
 //start game
@@ -65,6 +69,19 @@ function pressKey(key) {
 
 function getActiveTiles() {
     return guessWord.querySelectorAll("[data-state='active']")
+}
+
+
+function deleteKey() {
+  const activeTiles = getActiveTiles()
+  const lastTile = activeTiles[activeTiles.length - 1]
+
+  if(lastTile == null) return
+
+  lastTile.textContent= ""
+  delete lastTile.dataset.state
+  delete lastTile.dataset.letter
+
 }
 
 function submitGuess() {}

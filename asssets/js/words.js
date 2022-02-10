@@ -1,4 +1,4 @@
-const words = [
+const wordOfTheDay = [
     "cigar",
     "rebut",
     "sissy",
