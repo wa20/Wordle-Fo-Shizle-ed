@@ -98,6 +98,7 @@ body{
     text-transform: uppercase;
     font-weight: bold;
     user-select: none;
+    transition: transform 250ms linear;
 }
 
 .tile[data-state="active"]{
@@ -182,4 +183,10 @@ z-index: 2;
         transform: translateX(0);
     }
 
+}
+
+/* ============================================================================================================ */
+
+.tile.flip {
+    transform: rotateX(90deg);
 }
