@@ -15404,7 +15404,7 @@ function submitGuess() {
 
 function flipTile (tile, index, array, guess) {
  const letter = tile.dataset.letter
- const key = keyboard.querySelector(`[data-keys="${letter}"]`)
+ const key = keyboard.querySelector(`[data-keys="${letter}"i]`)
 
  setTimeout(() => {
   tile.classList.add('flip')
@@ -15427,7 +15427,7 @@ tile.addEventListener('transitionend', () => {
   if(index === array.length -1){
     tile.addEventListener("transitionend", () => {
      startGame()
-     
+
     })
     
   }
