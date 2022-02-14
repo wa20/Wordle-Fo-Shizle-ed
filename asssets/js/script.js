@@ -15296,6 +15296,7 @@ const alertContainer = document.querySelector("[data-alert-container]");
 const keyboard = document.querySelector("[data-keyboard]");
 const wordLength = 5;
 const flipAnimationDuration = 500;
+const danceAnimationDuration = 500;
 const offsetFromDate = new Date(2022, 0, 1);
 const milliSecondOffset = Date.now() - offsetFromDate;
 const dayOffset = milliSecondOffset / 1000 / 60 / 60 / 24;
@@ -15310,9 +15311,9 @@ function startGame() {
   document.addEventListener("keydown", handleKeyPress);
 }
 
-// end game
+// stop game
 
-function endGame() {
+function stopGame() {
   document.removeEventListener("click", handleMouseClick);
   document.removeEventListener("keydown", handleKeyPress);
 }
@@ -15397,14 +15398,14 @@ function submitGuess() {
     return
   } 
 
-  // stopInteraction()
+  stopGame()
   activeTiles.forEach((...params) =>  flipTile(...params, guess))
 }
 
 
 function flipTile (tile, index, array, guess) {
  const letter = tile.dataset.letter
- const key = keyboard.querySelector(`[data-keys="${letter}"i]`)
+ const key = keyboard.querySelector(`[data-key="${letter}"i]`)
 
  setTimeout(() => {
   tile.classList.add('flip')
@@ -15427,11 +15428,12 @@ tile.addEventListener('transitionend', () => {
   if(index === array.length -1){
     tile.addEventListener("transitionend", () => {
      startGame()
+     checkWinOrLose(guess, array)
 
-    })
+    }, {once: true})
     
-  }
-})
+   }
+  }, {once: true})
 
 }
 
@@ -15446,6 +15448,7 @@ function ShowAlert(message, time = 1000){
 
   setTimeout(() => {
     alert.classList.add('hide')
+    
   }, time) 
 }
 
@@ -15457,6 +15460,41 @@ function ShakeTiles(tiles){
     tile.addEventListener('animationend',() => {
       tile.classList.remove('shake')
     }, {once: true})
+
+  });
+}
+
+
+function checkWinOrLose(guess, tiles){
+
+  if(guess === targetWord){
+    ShowAlert("You Win", 5000)
+    danceTiles(tiles)
+    stopGame()
+    return
+  }
+
+  const remainingTiles = guessWord.querySelector(":not[data-letter])")
+
+  if(remainingTiles.length === 0 ){
+    ShowAlert(targetWord.toUpperCase(), null)
+    stopGame()
+  }
+}
+
+function danceTiles(tiles){
+
+  tiles.forEach(tile => {
+
+    setTimeout((tile, index) =>{
+
+      tile.classList.add('dance')
+    tile.addEventListener('animationend',() => {
+      tile.classList.remove('dance')
+    }, {once: true})
+
+    }, index * danceAnimationDuration / 5)
+    
 
   });
 }
