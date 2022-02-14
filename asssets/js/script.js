@@ -15288,8 +15288,8 @@ const dictionary = [
   "rower",
   "artsy",
   "rural",
-  "shave"
-]
+  "shave",
+];
 
 const guessWord = document.querySelector("[data-guess-word]");
 const alertContainer = document.querySelector("[data-alert-container]");
@@ -15303,7 +15303,7 @@ const dayOffset = milliSecondOffset / 1000 / 60 / 60 / 24;
 console.log(dayOffset);
 const targetWord = wordOfTheDay[Math.floor(dayOffset)];
 console.log(targetWord);
-startGame(); 
+startGame();
 
 //start game
 function startGame() {
@@ -15381,120 +15381,122 @@ function submitGuess() {
   const activeTiles = [...getActiveTiles()];
 
   if (activeTiles.length !== wordLength) {
-    console.log("word length too short"); 
+    console.log("word length too short");
     ShowAlert("word length too short");
     ShakeTiles(activeTiles);
     return;
   }
 
-  const guess = activeTiles.reduce((word, tile) =>{
-    return word + tile.dataset.letter
-  }, "")
-  console.log('guess: ', guess )
+  const guess = activeTiles.reduce((word, tile) => {
+    return word + tile.dataset.letter;
+  }, "");
+  console.log("guess: ", guess);
 
-  if(!dictionary.includes(guess)) {
-    ShowAlert("Not in word list!")
-    ShakeTiles(activeTiles)
-    return
-  } 
+  if (!dictionary.includes(guess)) {
+    ShowAlert("Not in word list!");
+    ShakeTiles(activeTiles);
+    return;
+  }
 
-  stopGame()
-  activeTiles.forEach((...params) =>  flipTile(...params, guess))
+  stopGame();
+  activeTiles.forEach((...params) => flipTile(...params, guess));
 }
 
-
-function flipTile (tile, index, array, guess) {
- const letter = tile.dataset.letter
- const key = keyboard.querySelector(`[data-key="${letter}"i]`)
-
- setTimeout(() => {
-  tile.classList.add('flip')
-}, index * flipAnimationDuration / 2) 
-
-tile.addEventListener('transitionend', () => {
-  tile.classList.remove('flip')
-
-  if(targetWord[index] === letter){
-    tile.dataset.state = 'correct'
-    key.classList.add('correct')
-  } else if(targetWord.includes(letter)){
-    tile.dataset.state = 'wrong-location'
-    key.classList.add('wrong-location')
-  } else {
-    tile.dataset.state = 'wrong'
-    key.classList.add('wrong')
-  } 
-
-  if(index === array.length -1){
-    tile.addEventListener("transitionend", () => {
-     startGame()
-     checkWinOrLose(guess, array)
-
-    }, {once: true})
-    
-   }
-  }, {once: true})
-
-}
-
-
-function ShowAlert(message, time = 1000){
-  const alert = document.createElement('div')
-  alert.textContent = message
-  alert.classList.add('alert')
-  alertContainer.prepend(alert)
-
-  if(time == null) return
+function flipTile(tile, index, array, guess) {
+  const letter = tile.dataset.letter;
+  const key = keyboard.querySelector(`[data-key="${letter}"i]`);
 
   setTimeout(() => {
-    alert.classList.add('hide')
-    
-  }, time) 
+    tile.classList.add("flip");
+  }, (index * flipAnimationDuration) / 2);
+
+  tile.addEventListener(
+    "transitionend",
+    () => {
+      tile.classList.remove("flip");
+
+      if (targetWord[index] === letter) {
+        tile.dataset.state = "correct";
+        key.classList.add("correct");
+      } else if (targetWord.includes(letter)) {
+        tile.dataset.state = "wrong-location";
+        key.classList.add("wrong-location");
+      } else {
+        tile.dataset.state = "wrong";
+        key.classList.add("wrong");
+      }
+
+      if (index === array.length - 1) {
+        tile.addEventListener(
+          "transitionend",
+          () => {
+            startGame();
+            checkWinOrLose(guess, array);
+          },
+          { once: true }
+        );
+      }
+    },
+    { once: true }
+  );
 }
 
+function ShowAlert(message, time = 1000) {
+  const alert = document.createElement("div");
+  alert.textContent = message;
+  alert.classList.add("alert");
+  alertContainer.prepend(alert);
 
-function ShakeTiles(tiles){
+  if (time == null) return;
 
-  tiles.forEach(tile => {
-    tile.classList.add('shake')
-    tile.addEventListener('animationend',() => {
-      tile.classList.remove('shake')
-    }, {once: true})
+  setTimeout(() => {
+    alert.classList.add("hide");
+    alert.addEventListener("transitionend", () => {
+    alert.remove()
+    })
+  }, time);
+}
 
+function ShakeTiles(tiles) {
+  tiles.forEach((tile) => {
+    tile.classList.add("shake");
+    tile.addEventListener(
+      "animationend",
+      () => {
+        tile.classList.remove("shake");
+      },
+      { once: true }
+    );
   });
 }
 
-
-function checkWinOrLose(guess, tiles){
-
-  if(guess === targetWord){
-    ShowAlert("You Win", 5000)
-    danceTiles(tiles)
-    stopGame()
-    return
+function checkWinOrLose(guess, tiles) {
+  if (guess === targetWord) {
+    ShowAlert("You Win", 5000);
+    danceTiles(tiles);
+    stopGame();
+    return;
   }
 
-  const remainingTiles = guessWord.querySelector(":not[data-letter])")
+  const remainingTiles = guessWord.querySelectorAll(":not([data-letter])");
 
-  if(remainingTiles.length === 0 ){
-    ShowAlert(targetWord.toUpperCase(), null)
-    stopGame()
+  if (remainingTiles.length === 0) {
+    ShowAlert("The word is: " + " " + targetWord.toUpperCase(), null);
+    stopGame();
   }
 }
 
-function danceTiles(tiles){
-
-  tiles.forEach(tile => {
-
-    setTimeout((tile, index) =>{
-
-      tile.classList.add('dance')
-    tile.addEventListener('animationend',() => {
-      tile.classList.remove('dance')
-    }, {once: true})
-
-    }, index * danceAnimationDuration / 5)
-    
-
+function danceTiles(tiles) {
+  tiles.forEach((tile, index) => {
+    setTimeout(() => {
+      tile.classList.add("dance");
+      tile.addEventListener(
+        "animationend",
+        () => {
+          tile.classList.remove("dance");
+        },
+        { once: true }
+      );
+    }, (index * danceAnimationDuration) / 5);
   });
 }
