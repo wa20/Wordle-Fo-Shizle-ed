@@ -2421,5 +2421,17 @@ function ShowAlert(message, time = 1000){
 
   setTimeout(() => {
     alert.classList.add('hide')
-  }, time)
+  }, time) 
+}
+
+
+function ShakeTiles(tiles){
+
+  tiles.forEach(tile => {
+    tile.classList.add('shake')
+    tile.addEventListener('animationend',() => {
+      tile.classList.remove('shake')
+    }, {once: true})
+
+  });
 }
