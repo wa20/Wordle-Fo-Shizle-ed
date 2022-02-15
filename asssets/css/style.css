@@ -26,7 +26,7 @@ align-items: center;
 .info {
     text-align: center;
     line-height: 0.5em;
-    min-width: 50vw;
+    min-width: 70vw;
     font-size: 0.8em;
     border: 1px solid hsl(0, 0%, 71%);
     border-radius: 3px; 
